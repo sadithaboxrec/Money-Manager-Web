@@ -6,4 +6,6 @@ import com.sadi.FinanceManager.dto.ProfileResponse;
 public interface ProfileService {
 
     ProfileResponse registerProfile(ProfileDTO profileDTO);
+
+    boolean activateProfile(String activationToken);
 }

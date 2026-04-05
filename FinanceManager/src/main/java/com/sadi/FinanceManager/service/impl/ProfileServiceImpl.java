@@ -16,6 +16,8 @@ public class ProfileServiceImpl implements ProfileService {
 
     private final ProfileRepo profileRepo;
 
+    private final EmailServiceImpl emailServiceImpl;
+
     @Override
     public ProfileResponse registerProfile(ProfileDTO profileDTO) {
 
@@ -30,6 +32,13 @@ public class ProfileServiceImpl implements ProfileService {
         profile.setUpdatedAt(profileDTO.getUpdatedAt());
         profile.setActivationToken(UUID.randomUUID().toString());
 
+
+        // Set the activation email for token
+        String activationLink="http://localhost:8080/api/v1.0/activateprofile?token="+profile.getActivationToken();
+        String subject = "Activating Financial Manager account";
+        String body = "Click on the  link to activate your account: " + activationLink;
+        emailServiceImpl.sendEmail(profile.getEmail(), subject, body);
+
         Profile savedProfile = profileRepo.save(profile);
 
         return new ProfileResponse(
@@ -41,4 +50,17 @@ public class ProfileServiceImpl implements ProfileService {
                 savedProfile.getUpdatedAt()
         );
     }
+
+
+
+    public boolean activateProfile(String activationToken) {
+        return profileRepo.findByActivationToken(activationToken)
+                .map(profile -> {
+                    profile.setIsActive(true);
+                    profileRepo.save(profile);
+                    return true;
+                })
+                .orElse(false);
+    }
+
 }
