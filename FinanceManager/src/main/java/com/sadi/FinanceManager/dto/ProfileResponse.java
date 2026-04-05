@@ -19,5 +19,5 @@ public class ProfileResponse {
     private String email;
     private String profileImageUrl;
     private LocalDateTime createdAt;
-    private LocalDateTime updatedA;
+    private LocalDateTime updatedAt;
 }
