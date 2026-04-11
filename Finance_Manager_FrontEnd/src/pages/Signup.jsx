@@ -7,6 +7,8 @@ import axiosConfig from "../util/axiosConfig.jsx";
 import {API_ENDPOINTS} from "../util/apiEndpoints.js";
 import toast from "react-hot-toast";
 import {LoaderCircle} from "lucide-react";
+import PfUploader from "../components/PfUploader.jsx";
+import uploadProfileImage from "../util/uploadProfileImage.js";
 
 
 const Signup = () => {
@@ -17,6 +19,8 @@ const Signup = () => {
     const [error, setError] = useState(null);
 
     const [isLoading, setIsLoading] = useState(false);
+
+    const [profilePhoto,setProfilePhoto] = useState(null);
 
 
     const navigate = useNavigate();
@@ -31,6 +35,9 @@ const Signup = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();  // stop reloading entire web
+
+        let profileImageUrl = "";
+
         setIsLoading(true);
 
         //basic validation for inputs
@@ -60,10 +67,21 @@ const Signup = () => {
         // api calling
         try {
 
+            // upload the image if there
+            if(profilePhoto){
+
+                const imageUrl=await uploadProfileImage(profilePhoto);
+
+                profileImageUrl= imageUrl || "";
+
+
+            }
+
             const response = await axiosConfig.post(API_ENDPOINTS.REGISTER, {
                 fullName,
                 email,
                 password,
+                profileImageUrl
             })
             if (response.status === 201) {
                 toast.success("Profile created successfully.");
@@ -99,6 +117,11 @@ const Signup = () => {
 
                         <form onSubmit={handleSubmit} className="space-y-5">
                             {/* Grid: 1 col on mobile, 2 cols on tablet+ */}
+
+                            <div className="flex justify-center mb-6">
+                                <PfUploader image={profilePhoto} setImage={setProfilePhoto}/>
+                            </div>
+
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-1">
                                 <Input
                                     value={fullName}
