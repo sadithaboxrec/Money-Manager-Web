@@ -1,0 +1,36 @@
+services:
+
+  database:
+    image: postgres:17
+    container_name: my_database
+    environment:
+      POSTGRES_DB: financedb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build: ./FinanceManager
+    container_name: my_backend
+    environment:
+      DATABASE_URL: jdbc:postgresql://database:5432/financedb
+      DB_USERNAME: postgres
+      DB_PASSWORD: password
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+
+  frontend:
+    build: ./Finance_Manager_FrontEnd
+    container_name: my_frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
