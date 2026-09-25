@@ -19,6 +19,11 @@ services:
       DATABASE_URL: jdbc:postgresql://database:5432/financedb
       DB_USERNAME: postgres
       DB_PASSWORD: password
+
+      BREVO_USERNAME: ${BREVO_USERNAME}
+      BREVO_PASSWORD: ${BREVO_PASSWORD}
+      BREVO_FROM_EMAIL: ${BREVO_FROM_EMAIL}
+
     ports:
       - "8080:8080"
     depends_on:
