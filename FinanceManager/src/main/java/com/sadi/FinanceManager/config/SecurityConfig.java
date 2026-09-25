@@ -40,7 +40,8 @@ public class SecurityConfig {
         httpSecurity.cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
-                        auth -> auth.requestMatchers("/status", "/run", "/register", "/activateprofile", "/login").permitAll()
+                        auth -> auth.requestMatchers("/status", "/run", "/register", "/activateprofile", "/login",    "/forgot-password",
+                                        "/reset-password").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
@@ -60,7 +61,7 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
 //        Allow requests from ANY origin
         configuration.setAllowedOriginPatterns(List.of("*"));//List.of("http://localhost:3000")
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "OPTIONS"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "OPTIONS","DELETE"));
 
         configuration.setAllowedHeaders(List.of("Authorization","Content-Type", "Accept"));
 //        Authorization  for JWT tokens

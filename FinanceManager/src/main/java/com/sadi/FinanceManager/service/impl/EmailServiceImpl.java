@@ -1,11 +1,15 @@
 package com.sadi.FinanceManager.service.impl;
 
 import com.sadi.FinanceManager.service.EmailService;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value; // ✅ CORRECT use instead of lambok
+import org.springframework.beans.factory.annotation.Value; //  CORRECT use instead of lambok
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -32,6 +36,22 @@ public class EmailServiceImpl implements EmailService {
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
+    }
+
+
+    // email with excel
+
+    public void sendEmailWithExcel(String to, String subject, String body, byte[] attachment, String filename) throws
+            MessagingException {
+
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+        helper.setFrom(fromEmail);
+        helper.setTo(to);
+        helper.setSubject(subject);
+        helper.setText(body);
+        helper.addAttachment(filename, new ByteArrayResource(attachment));
+        mailSender.send(message);
     }
 
 
