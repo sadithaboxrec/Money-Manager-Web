@@ -13,4 +13,7 @@ public interface ProfileRepo extends JpaRepository<Profile, UUID> {
     Optional<Profile> findByActivationToken(String activationToken);
 
     Optional<Profile> findFirstByEmail(String email);
+
+
+    Optional<Profile> findByResetPasswordToken(String resetPasswordToken);
 }

@@ -39,6 +39,9 @@ public class Profile {
     private Boolean isActive;
     private String activationToken;
 
+    private String resetPasswordToken;
+    private LocalDateTime resetPasswordTokenExpiry;
+
     @PrePersist
     public void prePersist() {
         if (this.isActive == null) {

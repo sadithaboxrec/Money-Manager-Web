@@ -15,7 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.UUID;
 
@@ -156,4 +156,53 @@ public class ProfileServiceImpl implements ProfileService {
 
     }
 
+    // forget password
+    @Override
+    public void forgotPassword(String email) {
+
+        Profile profile = profileRepo.findByEmail(email)
+                .orElseThrow(() ->
+                        new UsernameNotFoundException("No account found with this email"));
+
+        String resetToken = UUID.randomUUID().toString();
+
+        profile.setResetPasswordToken(resetToken);
+        profile.setResetPasswordTokenExpiry(LocalDateTime.now().plusMinutes(15));
+
+        profileRepo.save(profile);
+
+        String resetLink = "http://localhost:5173/reset-password?token=" + resetToken;
+
+        String subject = "Reset your Financial Manager password";
+        String body = "Click on the link to reset your password: " + resetLink
+                + "\n\nThis link will expire in 15 minutes.";
+
+        emailServiceImpl.sendEmail(profile.getEmail(), subject, body);
+    }
+
+
+    @Override
+    public boolean resetPassword(String token, String newPassword) {
+
+        Profile profile = profileRepo.findByResetPasswordToken(token)
+                .orElse(null);
+
+        if (profile == null) {
+            return false;
+        }
+
+        if (profile.getResetPasswordTokenExpiry() == null ||
+                profile.getResetPasswordTokenExpiry().isBefore(LocalDateTime.now())) {
+            return false;
+        }
+
+        profile.setPassword(passwordEncoder.encode(newPassword));
+
+        profile.setResetPasswordToken(null);
+        profile.setResetPasswordTokenExpiry(null);
+
+        profileRepo.save(profile);
+
+        return true;
+    }
 }

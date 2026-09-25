@@ -22,4 +22,8 @@ public interface ProfileService {
     Map<String, Object> authenticateAndGenerateToken(AuthRequest authRequest);
 
     boolean hasCustomerWithEmail(String email);
+
+    void forgotPassword(String email);
+
+    boolean resetPassword(String token, String newPassword);
 }
