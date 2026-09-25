@@ -84,7 +84,7 @@ const Signup = () => {
                 profileImageUrl
             })
             if (response.status === 201) {
-                toast.success("Profile created successfully.");
+                toast.success("Finanacee Manager created successfully.");
                 navigate("/login");
             }
         } catch(err) {

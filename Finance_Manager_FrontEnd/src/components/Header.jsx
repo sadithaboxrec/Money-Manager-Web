@@ -8,8 +8,8 @@ const Header = () => {
 
     const navLinks = [
         { name: 'Home', to: '/home' },
-        { name: 'About us', to: '/about' },
-        { name: 'Contact us', to: '/contact' }
+        // { name: 'About us', to: '/about' },
+        // { name: 'Contact us', to: '/contact' }
     ];
 
     return (
@@ -25,7 +25,7 @@ const Header = () => {
                     {/* Desktop Navigation */}
                     <nav className="hidden lg:flex items-center space-x-8">
                         {navLinks.map((link) => (
-                            <Link to={link.to} key={link.name} href={link.href} className="text-gray-600 hover:text-purple-600 transition-colors">
+                            <Link to={link.to} key={link.name} href={link.href} className="text-gray-600 hover:text-emerald-700 transition-colors">
                                 {link.name}
                             </Link>
                         ))}
@@ -34,12 +34,12 @@ const Header = () => {
                     {/* Action Buttons & Hamburger Menu */}
                     <div className="flex items-center space-x-4">
                         <div className="hidden sm:flex items-center space-x-4">
-                            <Link to="/login" className="text-gray-600 hover:text-purple-600 transition-colors">
+                            <Link to="/login" className="text-gray-600 hover:text-emerald-700 transition-colors">
                                 Login
                             </Link>
                             <Link
                                 to="/signup"
-                                className="bg-purple-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-purple-700 transition-colors"
+                                className="bg-emerald-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-emerald-700 transition-colors"
                             >
                                 Get Started
                             </Link>
@@ -61,17 +61,17 @@ const Header = () => {
                     <div className="container mx-auto px-4 py-4">
                         <nav className="flex flex-col space-y-4">
                             {navLinks.map((link) => (
-                                <a key={link.name} href={link.href} className="text-gray-600 hover:text-purple-600 transition-colors">
+                                <a key={link.name} href={link.href} className="text-gray-600 hover:text-emerald-700 transition-colors">
                                     {link.name}
                                 </a>
                             ))}
                             <div className="flex flex-col space-y-3 pt-4 border-t border-gray-100">
-                                <a href="#" className="text-gray-600 hover:text-purple-600 transition-colors w-full text-left">
+                                <a href="#" className="text-gray-600 hover:text-emerald-700 transition-colors w-full text-left">
                                     Login
                                 </a>
                                 <a
                                     href="#"
-                                    className="bg-purple-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-purple-700 transition-colors text-center"
+                                    className="bg-emerald-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-emerald-700 transition-colors text-center"
                                 >
                                     Get Started
                                 </a>

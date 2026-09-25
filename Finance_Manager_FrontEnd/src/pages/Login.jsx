@@ -30,9 +30,11 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
-        //basic validation
+        //basic validation for page
+
+
         if (!validateEmail(email)) {
-            setError("Please enter valid email address");
+            setError("Please enter correcr email address");
             setIsLoading(false);
             return;
         }
@@ -43,7 +45,9 @@ const Login = () => {
             return;
         }
 
-        setError("");
+        setError(""); // error for empty array
+
+
 
         //Login api
         try {
@@ -63,7 +67,7 @@ const Login = () => {
             if (error.response && error.response.data.message) {
                 setError(error.response.data.message);
             } else {
-                console.error('Something went wrong', error);
+                console.error('Something went wrong,check again later', error);
                 setError(error.message);
             }
         } finally {
@@ -72,12 +76,15 @@ const Login = () => {
 
     }
 
+
+
+
     return(
 
 
         <div className="h-screen w-full flex flex-col font-sans">
             <div className="flex-grow w-full relative flex items-center justify-center overflow-hidden">
-                {/*  image  blur */}
+                {/*  background image  blur */}
                 <img src={assets.loginBackground} alt="Background" className="absolute inset-0 w-full h-full object-cover filter blur-sm" />
 
                 <div className="relative z-10 w-full max-w-[95%] sm:max-w-md px-6">
@@ -124,7 +131,7 @@ const Login = () => {
                                 {isLoading ? (
                                     <>
                                         <LoaderCircle className="animate-spin w-5 h-5" />
-                                        Logging in...
+                                        Logging in to the finanac manager
                                     </>
                                 ) : (
                                     "LOGIN"
@@ -134,7 +141,14 @@ const Login = () => {
                             <p className="text-sm text-slate-700 text-center mt-6">
                                 Don't have a finance manager account?{" "}
                                 <Link to="/signup" className="font-bold text-emerald-600 underline hover:text-emerald-800 transition-colors">
-                                    Signup
+                                    Create Account
+                                </Link>
+                            </p>
+
+                            <p className="text-sm text-slate-700 text-center mt-6">
+                                Forgot your password?{" "}
+                                <Link to="/forgot-password" className="font-bold text-emerald-600 underline hover:text-emerald-800 transition-colors">
+                                    Change Password
                                 </Link>
                             </p>
                         </form>
